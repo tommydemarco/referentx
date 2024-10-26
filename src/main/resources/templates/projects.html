@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <link
+      th:rel="stylesheet"
+      th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "
+  />
+  <title>Projects - ReferentX</title>
+</head>
+
+<body>
+<section class="content hidden-overflow">
+  <div class="row">
+    <a class="btn btn-primary" th:href="@{/projects/add}">Add new project</a>
+    <div class="col-12">
+      <h1>Your projects</h1>
+
+      <th:block th:each="project:${projects}">
+        <div class="card" style="width: 100%">
+          <div class="card-body">
+            <h5 class="card-title">[[${project.projectName}]]</h5>
+            <p class="card-text">[[${project.projectDescription}]]</p>
+            <a th:href="@{/projects/{id}(id=${project.projectId})}" class="card-link">Open project</a>
+            <a th:href="@{/projects/{id}/edit(id=${project.projectId})}" class="card-link">Edit project</a>
+          </div>
+        </div>
+      </th:block>
+
+    </div>
+  </div>
+</section>
+</body>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+</html>

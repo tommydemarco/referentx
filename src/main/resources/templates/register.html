@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <link
+      th:rel="stylesheet"
+      th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "
+  />
+  <title>Register - ReferentX</title>
+</head>
+
+<body>
+<section class="content hidden-overflow">
+  <div class="row">
+    <div class="col-6">
+      <div>
+        <div class="d-flex justify-content-center mb-4">
+          <h1 class="font-weight-bold">
+            Register
+          </h1>
+        </div>
+        <div class="myForm">
+          <form
+              th:action="@{/register/new}"
+              th:object="${user}"
+              method="post"
+          >
+            <div class="form-group">
+              <input
+                  placeholder="Name"
+                  name="name"
+                  th:field="*{name}"
+                  type="text"
+                  class="form-control"
+                  required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                  placeholder="Email"
+                  name="email"
+                  th:field="*{email}"
+                  type="email"
+                  class="form-control"
+                  required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                  min="8"
+                  placeholder="Password"
+                  name="password"
+                  th:field="*{password}"
+                  type="password"
+                  class="form-control pwd"
+                  required
+              />
+            </div>
+            <div class="form-group mt-5 col-md-12">
+              <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+</html>
