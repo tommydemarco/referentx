@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <link
+      th:rel="stylesheet"
+      th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "
+  />
+  <title>Chapters - ReferentX</title>
+</head>
+
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<section class="container">
+  <div class="row">
+
+    <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
+      <h1>[[${projectName}]]</h1>
+      <a class="btn btn-primary" th:href="@{/projects/{id}/chapters/add(id=${projectId})}">Add new chapter for this
+        project</a>
+    </div>
+
+    <div class="col-12 mb-3">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="sidebar" th:replace="fragments/internal-sidebar :: internal-sidebar"></div>
+        </div>
+        <div class="col-md-9">
+          <h2 class="mb-4">Chapters of: [[${projectName}]]</h2>
+          <div th:if="${chapters.isEmpty()}">
+            <p>There are no chapters associated to this project yet</p>
+          </div>
+
+          <th:block th:each="chapter:${chapters}">
+            <div class="card" style="width: 100%">
+              <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                  <h5 class="card-title">[[${chapter.chapterName}]]</h5>
+                  <p class="card-text">[[${chapter.chapterDescription}]]</p>
+                </div>
+                <div class="d-flex gap-2">
+                  <a th:href="@{/projects/{projectId}/chapters/{id}/edit(projectId=${projectId}, id=${chapter.chapterId})}"
+                     class="btn btn-light border">Edit</a>
+                  <form
+                      th:action="@{/projects/{id}/chapters/{chapterId}/delete(id=${projectId}, chapterId=${chapter.chapterId}, action=${formAction})}"
+                      th:object="${chapter}"
+                      method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" class="btn btn-secondary">Delete
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </th:block>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

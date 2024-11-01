@@ -1,6 +1,5 @@
 package com.DLBCSPSE01.referentx.controller;
 
-import com.DLBCSPSE01.referentx.config.CustomUserDetails;
 import com.DLBCSPSE01.referentx.entity.*;
 import com.DLBCSPSE01.referentx.service.ProjectService;
 import com.DLBCSPSE01.referentx.service.UsersService;
@@ -13,11 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class ProjectController {
@@ -29,6 +25,11 @@ public class ProjectController {
     public ProjectController(UsersService usersService, ProjectService projectService) {
         this.usersService = usersService;
         this.projectService = projectService;
+    }
+
+    @GetMapping("/")
+    public String homePage() {
+        return "redirect:/projects/";
     }
 
     @GetMapping("/projects/")

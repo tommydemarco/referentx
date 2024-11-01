@@ -7,44 +7,41 @@
 </head>
 
 <body>
-
-<div class="container">
-  <div class="col-md-7">
-    <h1 class="font-weight-bold">[[${formTitle}]]</h1>
-    <form th:action="@{/projects/{action}(action=${formAction})}" th:object="${project}"
-          method="post">
-      <input hidden type="text" th:field="*{projectId}">
-      <div class="form-group">
-        <label for="projectName">Project name</label>
-        <input type="text" id="projectName" class="form-control" th:field="*{projectName}">
-      </div>
-      <div class="form-group">
-        <label for="projectDescription">Project description</label>
-        <input type="text" id="projectDescription" class="form-control" th:field="*{projectDescription}">
-      </div>
-      <div class="form-group">
-        <label for="projectCitationStyle">Project citation style</label>
-        <input type="text" id="projectCitationStyle" class="form-control" th:field="*{projectCitationStyle}">
-      </div>
-      <div class="form-group">
-        <label for="projectCollaborators">Project collaborators</label>
-        <input type="text" class="form-control" id="projectCollaborators">
-        <small class="form-text text-muted">Enter a comma-separated list of the emails of the desired
-          collaborators</small>
-      </div>
-
-
-      <div class="row mt-4">
-        <div class="col d-flex justify-content-center">
+<div th:replace="fragments/navbar :: navbar"></div>
+<section class="container">
+  <div class="row">
+    <div class="col-md-7">
+      <h1 class="font-weight-bold mb-3">[[${formTitle}]]</h1>
+      <form th:action="@{/projects/{action}(action=${formAction})}" th:object="${project}"
+            method="post">
+        <input hidden type="text" th:field="*{projectId}">
+        <div class="form-group mb-3">
+          <label for="projectName">Project name</label>
+          <input type="text" id="projectName" class="form-control" th:field="*{projectName}">
+        </div>
+        <div class="form-group mb-3">
+          <label for="projectDescription">Project description</label>
+          <input type="text" id="projectDescription" class="form-control" th:field="*{projectDescription}">
+        </div>
+        <div class="form-group mb-3">
+          <label for="projectCitationStyle">Project citation style</label>
+          <input type="text" id="projectCitationStyle" class="form-control" th:field="*{projectCitationStyle}">
+        </div>
+        <div class="form-group mb-3">
+          <label for="projectCollaborators">Project collaborators</label>
+          <input type="text" class="form-control" id="projectCollaborators">
+          <small class="form-text text-muted">Enter a comma-separated list of the emails of the desired
+            collaborators</small>
+        </div>
+        <div class="form-group mt-4">
           <button type="submit" name="submit" class="btn btn-primary px-4 py-2 mb-5">Save</button>
         </div>
-      </div>
-    </form>
+      </form>
 
+    </div>
   </div>
-</div>
 
-<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</section>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
