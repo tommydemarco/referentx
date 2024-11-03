@@ -1,0 +1,13 @@
+<div th:fragment="internal-sidebar">
+  <ul class="list-group">
+    <li th:classappend="${section == 'chapters'} ? 'bg-light' : ''" class="list-group-item">
+      <a
+          th:href="@{/projects/{id}/chapters(id=${projectId})}">Chapters</a>
+    </li>
+    <li th:classappend="${section == 'tasks'} ? 'bg-light' : ''" class="list-group-item"><a
+        th:href="@{/projects/{id}/tasks(id=${projectId})}">Tasks</a>
+    </li>
+  </ul>
+  <style>
+  </style>
+</div>

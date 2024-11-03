@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <link
+      th:rel="stylesheet"
+      th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "
+  />
+  <title>Tasks - ReferentX</title>
+</head>
+
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<section class="container">
+  <div class="row">
+
+    <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
+      <h1>[[${projectName}]]</h1>
+      <a class="btn btn-primary" th:href="@{/projects/{id}/tasks/add(id=${projectId})}">Add new task</a>
+    </div>
+
+    <div class="col-12 mb-3">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="sidebar" th:replace="fragments/internal-sidebar :: internal-sidebar"></div>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-4">
+              <h5 class="mb-3">Todo</h5>
+              <th:block th:each="todoTask:${todoTasks}">
+                <div class="card" style="width: 100%">
+                  <div class="card-body">
+                    <h5 class="card-title">[[${todoTask.taskTitle}]]</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"
+                    >Due date: [[${#dates.format(todoTask.dueDate, 'yyyy-MM-dd')}]]</h6>
+                    <p class="card-text">[[${todoTask.taskDescription}]]</p>
+                    <p class="card-text text-muted">Assignee: [[${todoTask.assignee != null ?
+                      todoTask.assignee.name :
+                      'None'}]]</p>
+                  </div>
+                  <div class="card-footer py-3 d-flex flex-wrap gap-2">
+                    <a th:href="@{/projects/{id}/tasks/{taskId}/edit(id=${projectId}, taskId=${todoTask.taskId})}"
+                       class="btn btn-secondary">Edit</a>
+                    <form
+                        th:action="@{/projects/{id}/tasks/{taskId}/delete(id=${projectId}, taskId=${todoTask.taskId})}"
+                        th:object="${todoTask}"
+                        method="post">
+                      <input type="hidden" name="_method" value="delete"/>
+                      <button type="submit" class="btn btn-danger">Delete
+                      </button>
+                    </form>
+                    <div class="d-flex start gap-2" style="margin-left: auto;">
+                      <form
+                          th:action="@{/projects/{id}/tasks/{taskId}/update-status(id=${projectId}, taskId=${todoTask.taskId})}"
+                          method="post">
+                        <input type="hidden" name="status" value="progress"/>
+                        <button type="submit" title="set in progress" class="btn btn-light border">
+                          &#8702;
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </th:block>
+            </div>
+            <div class="col-md-4">
+              <h5 class="mb-3">In progress</h5>
+              <th:block th:each="inProgressTask:${inProgressTasks}">
+                <div class="card" style="width: 100%">
+                  <div class="card-body">
+                    <h5 class="card-title">[[${inProgressTask.taskTitle}]]</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"
+                    >Due date: [[${#dates.format(inProgressTask.dueDate, 'yyyy-MM-dd')}]]</h6>
+                    <p class="card-text">[[${inProgressTask.taskDescription}]]</p>
+                    <p class="card-text text-muted">Assignee: [[${inProgressTask.assignee != null ?
+                      inProgressTask.assignee.name :
+                      'None'}]]</p>
+                  </div>
+                  <div class="card-footer py-3 d-flex flex-wrap gap-2">
+                    <a th:href="@{/projects/{id}/tasks/{taskId}/edit(id=${projectId}, taskId=${inProgressTask.taskId})}"
+                       class="btn btn-secondary">Edit</a>
+                    <form
+                        th:action="@{/projects/{id}/tasks/{taskId}/delete(id=${projectId}, taskId=${inProgressTask.taskId})}"
+                        th:object="${inProgressTask}"
+                        method="post">
+                      <input type="hidden" name="_method" value="delete"/>
+                      <button type="submit" class="btn btn-danger">Delete
+                      </button>
+                    </form>
+                    <div class="d-flex start gap-2" style="margin-left: auto;">
+                      <form
+                          th:action="@{/projects/{id}/tasks/{taskId}/update-status(id=${projectId}, taskId=${inProgressTask.taskId})}"
+                          method="post">
+                        <input type="hidden" name="status" value="todo"/>
+                        <button title="set as todo" class="btn btn-light border">
+                          &#8701;
+                        </button>
+                      </form>
+                      <form
+                          th:action="@{/projects/{id}/tasks/{taskId}/update-status(id=${projectId}, taskId=${inProgressTask.taskId})}"
+                          method="post">
+                        <input type="hidden" name="status" value="done"/>
+                        <button type="submit" title="set done" class="btn btn-light border">
+                          &#8702;
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </th:block>
+            </div>
+            <div class="col-md-4">
+              <h5 class="mb-3">Done</h5>
+              <th:block th:each="doneTask:${doneTasks}">
+                <div class="card" style="width: 100%">
+                  <div class="card-body">
+                    <h5 class="card-title">[[${doneTask.taskTitle}]]</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"
+                    >Due date: [[${#dates.format(doneTask.dueDate, 'yyyy-MM-dd')}]]</h6>
+                    <p class="card-text">[[${doneTask.taskDescription}]]</p>
+                    <p class="card-text text-muted">Assignee: [[${doneTask.assignee != null ?
+                      doneTask.assignee.name :
+                      'None'}]]</p>
+                  </div>
+                  <div class="card-footer py-3 d-flex flex-wrap gap-2">
+                    <a th:href="@{/projects/{id}/tasks/{taskId}/edit(id=${projectId}, taskId=${doneTask.taskId})}"
+                       class="btn btn-secondary">Edit</a>
+                    <form
+                        th:action="@{/projects/{id}/tasks/{taskId}/delete(id=${projectId}, taskId=${doneTask.taskId})}"
+                        th:object="${doneTask}"
+                        method="post">
+                      <input type="hidden" name="_method" value="delete"/>
+                      <button type="submit" class="btn btn-danger">Delete
+                      </button>
+                    </form>
+                    <div class="d-flex start gap-2" style="margin-left: auto;">
+                      <form
+                          th:action="@{/projects/{id}/tasks/{taskId}/update-status(id=${projectId}, taskId=${doneTask.taskId})}"
+                          method="post">
+                        <input type="hidden" name="status" value="progress"/>
+                        <button title="set in progress" class="btn btn-light border">
+                          &#8701;
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </th:block>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
