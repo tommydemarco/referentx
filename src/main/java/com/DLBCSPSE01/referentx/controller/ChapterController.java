@@ -44,6 +44,7 @@ public class ChapterController {
         }
 
         model.addAttribute("projectId", id);
+        model.addAttribute("section", "chapters");
         model.addAttribute("projectName", project.getProjectName());
         model.addAttribute("user", currentUser);
         return "chapters";

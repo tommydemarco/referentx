@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,6 +45,18 @@ public class UsersService {
 
     public Users findByEmail(String currentUsername) {
         return usersRepository.findByEmail(currentUsername).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    public Users getOne(int userId) {
+        return usersRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    public List<Users> getAll() {
+        return usersRepository.findAll();
+    }
+
+    public List<Users> getAllById(List<Integer> userIds) {
+        return usersRepository.findAllById(userIds);
     }
 
     public Optional<Users> getUserByEmail(String email) {

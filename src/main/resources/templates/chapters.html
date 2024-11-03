@@ -20,13 +20,13 @@
         project</a>
     </div>
 
-    <div class="col-12 mb-3">
+    <div class="col-12 mb-">
       <div class="row">
         <div class="col-md-3">
           <div class="sidebar" th:replace="fragments/internal-sidebar :: internal-sidebar"></div>
         </div>
         <div class="col-md-9">
-          <h2 class="mb-4">Chapters of: [[${projectName}]]</h2>
+
           <div th:if="${chapters.isEmpty()}">
             <p>There are no chapters associated to this project yet</p>
           </div>

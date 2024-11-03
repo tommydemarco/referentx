@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link
+      th:rel="stylesheet"
+      th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+  />
+  <title>[[${formTitle}]] - ReferentX</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<section class="container">
+  <div class="row">
+    <div class="col-md-7">
+      <h1 class="font-weight-bold mb-3">[[${formTitle}]]</h1>
+      <form
+          th:action="@{/projects/{id}/tasks/{action}(id=${projectId}, action=${formAction})}"
+          th:object="${task}"
+          method="post">
+        <input hidden type="text" th:field="*{taskId}">
+        <div class="form-group mb-3">
+          <label for="taskTitle">Task title</label>
+          <input type="text" id="taskTitle" class="form-control" th:field="*{taskTitle}">
+        </div>
+        <div class="form-group mb-3">
+          <label for="taskDescription">Task description</label>
+          <input type="text" id="taskDescription" class="form-control" th:field="*{taskDescription}">
+        </div>
+        <div class="form-group mb-3">
+          <label for="dueDate">Due date</label>
+          <input type="date" id="dueDate" class="form-control" th:field="*{dueDate}">
+        </div>
+        <div class="form-group mb-3">
+          <label for="selectedAssigneeId">Assignee</label>
+          <select id="selectedAssigneeId" class="form-select" name="selectedAssigneeId">
+            <option value="0" th:selected="${task.assignee == null}">None</option>
+            <option th:each="availableAssignee : ${availableAssignees}"
+                    th:value="${availableAssignee.userId}"
+                    th:text="${availableAssignee.email}"
+                    th:selected="${availableAssignee == task.assignee}"
+            >
+            </option>
+          </select>
+        </div>
+        <div class="form-group mt-4">
+          <button type="submit" name="submit" class="btn btn-primary px-4 py-2 mb-5">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

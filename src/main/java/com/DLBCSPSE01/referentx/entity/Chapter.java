@@ -15,7 +15,7 @@ public class Chapter {
     @Length(max = 10000)
     private String chapterDescription;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "projectId", referencedColumnName = "projectId")
     private Project project;
 
