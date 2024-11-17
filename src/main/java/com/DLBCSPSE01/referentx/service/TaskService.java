@@ -36,8 +36,8 @@ public class TaskService {
         Task savedTask = taskRepository.findById(task.getTaskId())
                 .orElseThrow(() -> new RuntimeException("Task not found"));
 
-        savedTask.setTaskTitle(task.getTaskTitle());
-        savedTask.setTaskDescription(task.getTaskDescription());
+        savedTask.setTitle(task.getTitle());
+        savedTask.setDescription(task.getDescription());
         savedTask.setDueDate(task.getDueDate());
         savedTask.setAssignee(task.getAssignee());
 

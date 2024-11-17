@@ -36,14 +36,21 @@ public class ProjectController {
     }
 
     @GetMapping("/projects/")
-    public String projectsPage(Model model) {
+    public String projectsPage(@RequestParam(value = "type", required = false) String type, Model model) {
 
         Users currentUser = usersService.getCurrentUser();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            List<Project> projects = projectService.getProjectsByOwner(currentUser);
-            model.addAttribute("projects", projects);
+            if (type != null && type.equals("collaborations")) {
+                List<Project> projects = projectService.getByCollaborator(currentUser);
+                model.addAttribute("projects", projects);
+                model.addAttribute("ownProjects", false);
+            } else {
+                List<Project> projects = projectService.getByOwner(currentUser);
+                model.addAttribute("projects", projects);
+                model.addAttribute("ownProjects", true);
+            }
         }
 
         model.addAttribute("user", currentUser);
@@ -53,15 +60,15 @@ public class ProjectController {
 
     @GetMapping("/projects/add")
     public String addProject(Model model) {
-        Users projectOwner = usersService.getCurrentUser();
+        Users owner = usersService.getCurrentUser();
 
         List<Users> allUsers = usersService.getAll();
         List<Users> availableCollaborators = allUsers.stream()
-                .filter(item -> !item.equals(projectOwner))
+                .filter(item -> !item.equals(owner))
                 .collect(Collectors.toList());
 
         model.addAttribute("project", new Project());
-        model.addAttribute("user", projectOwner);
+        model.addAttribute("user", owner);
         model.addAttribute("availableCollaborators", availableCollaborators);
         model.addAttribute("currentCollaborators", new ArrayList<>());
         model.addAttribute("formTitle", "Add new project");
@@ -72,11 +79,11 @@ public class ProjectController {
     @PostMapping("/projects/add-new")
     public String addProjectPost(@RequestParam("collaboratorId") List<Integer> collaboratorIds, Project project, Model model) {
         List<Users> selectedCollaborators = usersService.getAllById(collaboratorIds);
-        project.setProjectCollaborators(selectedCollaborators);
+        project.setCollaborators(selectedCollaborators);
 
         Users user = usersService.getCurrentUser();
         if (user != null) {
-            project.setProjectOwner(user);
+            project.setOwner(user);
         }
         model.addAttribute("project", project);
         Project saved = projectService.addNew(project);
@@ -86,19 +93,19 @@ public class ProjectController {
     @GetMapping("projects/{id}/edit")
     public String editProject(@PathVariable("id") int id, Model model) {
         Project project = projectService.getOne(id);
-        Users projectOwner = project.getProjectOwner();
+        Users owner = project.getOwner();
         Users currentUser = usersService.getCurrentUser();
 
         List<Users> allUsers = usersService.getAll();
         List<Users> availableCollaborators = allUsers.stream()
-                .filter(item -> !item.equals(projectOwner))
+                .filter(item -> !item.equals(owner))
                 .collect(Collectors.toList());
 
 
         model.addAttribute("project", project);
         model.addAttribute("user", currentUser);
         model.addAttribute("availableCollaborators", availableCollaborators);
-        model.addAttribute("currentCollaborators", project.getProjectCollaborators());
+        model.addAttribute("currentCollaborators", project.getCollaborators());
         model.addAttribute("formTitle", "Edit project");
         model.addAttribute("formAction", "edit-project");
         return "project-form";
@@ -107,11 +114,11 @@ public class ProjectController {
     @PostMapping("/projects/edit-project")
     public String editProjectPost(@RequestParam("collaboratorId") List<Integer> collaboratorIds, Project project, Model model) {
         List<Users> selectedCollaborators = usersService.getAllById(collaboratorIds);
-        project.setProjectCollaborators(selectedCollaborators);
+        project.setCollaborators(selectedCollaborators);
 
         Users user = usersService.getCurrentUser();
         if (user != null) {
-            project.setProjectOwner(user);
+            project.setOwner(user);
         }
 
         model.addAttribute("project", project);

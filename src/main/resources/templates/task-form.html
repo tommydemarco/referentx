@@ -13,7 +13,7 @@
 <section class="container">
   <div class="row">
     <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
-      <h1>[[${projectName}]]</h1>
+      <h1>[[${name}]]</h1>
       <a class="btn btn-primary" th:href="@{/projects/{id}/tasks/add(id=${projectId})}">Add new task</a>
     </div>
 
@@ -28,12 +28,12 @@
           method="post">
         <input hidden type="text" th:field="*{taskId}">
         <div class="form-group mb-3">
-          <label for="taskTitle">Task title</label>
-          <input type="text" id="taskTitle" class="form-control" th:field="*{taskTitle}">
+          <label for="title">Task title</label>
+          <input type="text" id="title" class="form-control" th:field="*{title}">
         </div>
         <div class="form-group mb-3">
-          <label for="taskDescription">Task description</label>
-          <input type="text" id="taskDescription" class="form-control" th:field="*{taskDescription}">
+          <label for="description">Task description</label>
+          <input type="text" id="description" class="form-control" th:field="*{description}">
         </div>
         <div class="form-group mb-3">
           <label for="dueDate">Due date</label>

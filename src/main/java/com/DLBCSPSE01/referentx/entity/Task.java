@@ -13,10 +13,10 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer taskId;
 
-    private String taskTitle;
+    private String title;
 
     @Length(max = 10000)
-    private String taskDescription;
+    private String description;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "projectId", referencedColumnName = "projectId")
@@ -34,10 +34,10 @@ public class Task {
     public Task() {
     }
 
-    public Task(Integer taskId, String taskTitle, String taskDescription, Project project, Date dueDate, Users assignee, TaskStatus status) {
+    public Task(Integer taskId, String title, String description, Project project, Date dueDate, Users assignee, TaskStatus status) {
         this.taskId = taskId;
-        this.taskTitle = taskTitle;
-        this.taskDescription = taskDescription;
+        this.title = title;
+        this.description = description;
         this.project = project;
         this.dueDate = dueDate;
         this.assignee = assignee;
@@ -52,20 +52,20 @@ public class Task {
         this.taskId = taskId;
     }
 
-    public String getTaskTitle() {
-        return taskTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTaskTitle(String taskTitle) {
-        this.taskTitle = taskTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public @Length(max = 10000) String getTaskDescription() {
-        return taskDescription;
+    public @Length(max = 10000) String getDescription() {
+        return description;
     }
 
-    public void setTaskDescription(@Length(max = 10000) String taskDescription) {
-        this.taskDescription = taskDescription;
+    public void setDescription(@Length(max = 10000) String description) {
+        this.description = description;
     }
 
     public Project getProject() {
@@ -104,8 +104,8 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "taskId=" + taskId +
-                ", taskTitle='" + taskTitle + '\'' +
-                ", taskDescription='" + taskDescription + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

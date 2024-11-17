@@ -42,7 +42,7 @@ public class SourceController {
 
         model.addAttribute("projectId", id);
         model.addAttribute("section", "sources");
-        model.addAttribute("projectName", project.getProjectName());
+        model.addAttribute("projectName", project.getName());
         model.addAttribute("user", currentUser);
         return "sources";
     }
@@ -64,7 +64,7 @@ public class SourceController {
 
         model.addAttribute("source", source);
         model.addAttribute("projectId", id);
-        model.addAttribute("projectName", project.getProjectName());
+        model.addAttribute("projectName", project.getName());
         model.addAttribute("sourceType", sourceType);
         model.addAttribute("user", usersService.getCurrentUser());
         model.addAttribute("formTitle", "Add new " + sourceType.replace('-', ' '));
@@ -92,7 +92,7 @@ public class SourceController {
 
         model.addAttribute("source", source);
         model.addAttribute("projectId", id);
-        model.addAttribute("projectName", project.getProjectName());
+        model.addAttribute("projectName", project.getName());
         model.addAttribute("sourceType", source.getSourceType());
         model.addAttribute("user", usersService.getCurrentUser());
         model.addAttribute("formTitle", "Edit source");

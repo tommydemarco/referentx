@@ -1,7 +1,6 @@
 package com.DLBCSPSE01.referentx.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
@@ -10,96 +9,94 @@ public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer projectId;
+    private Long projectId;
 
-    private String projectName;
+    private String name;
 
-    @Length(max = 10000)
-    private String projectDescription;
+    private String description;
 
-    private String projectCitationStyle;
+    private String citationStyle;
 
     @ManyToOne
     @JoinColumn(name = "owner", referencedColumnName = "userId")
-    private Users projectOwner;
+    private Users owner;
 
     @ManyToMany
     @JoinTable(
-            name = "project_collaborators",
+            name = "collaborators",
             joinColumns = @JoinColumn(name = "projectId"),
             inverseJoinColumns = @JoinColumn(name = "userId")
     )
-    private List<Users> projectCollaborators;
+    private List<Users> collaborators;
 
     public Project() {
     }
 
-    public Project(Integer projectId, String projectName, String projectDescription, String projectCitationStyle, Users projectOwner, List<Users> projectCollaborators) {
+    public Project(Long projectId, String name, String description, String citationStyle, Users owner, List<Users> collaborators) {
         this.projectId = projectId;
-        this.projectName = projectName;
-        this.projectDescription = projectDescription;
-        this.projectCitationStyle = projectCitationStyle;
-        this.projectOwner = projectOwner;
-        this.projectCollaborators = projectCollaborators;
+        this.name = name;
+        this.description = description;
+        this.citationStyle = citationStyle;
+        this.owner = owner;
+        this.collaborators = collaborators;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
-    public String getProjectName() {
-        return projectName;
+    public String getName() {
+        return name;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public @Length(max = 10000) String getProjectDescription() {
-        return projectDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProjectDescription(@Length(max = 10000) String projectDescription) {
-        this.projectDescription = projectDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getProjectCitationStyle() {
-        return projectCitationStyle;
+    public String getCitationStyle() {
+        return citationStyle;
     }
 
-    public void setProjectCitationStyle(String projectCitationStyle) {
-        this.projectCitationStyle = projectCitationStyle;
+    public void setCitationStyle(String citationStyle) {
+        this.citationStyle = citationStyle;
     }
 
-    public Users getProjectOwner() {
-        return projectOwner;
+    public Users getOwner() {
+        return owner;
     }
 
-    public void setProjectOwner(Users projectOwner) {
-        this.projectOwner = projectOwner;
+    public void setOwner(Users owner) {
+        this.owner = owner;
     }
 
-    public List<Users> getProjectCollaborators() {
-        return projectCollaborators;
+    public List<Users> getCollaborators() {
+        return collaborators;
     }
 
-    public void setProjectCollaborators(List<Users> projectCollaborators) {
-        this.projectCollaborators = projectCollaborators;
+    public void setCollaborators(List<Users> collaborators) {
+        this.collaborators = collaborators;
     }
 
     @Override
     public String toString() {
         return "Project{" +
                 "projectId=" + projectId +
-                ", projectName='" + projectName + '\'' +
-                ", projectDescription='" + projectDescription + '\'' +
-                ", projectCitationStyle='" + projectCitationStyle + '\'' +
-                ", projectOwner=" + projectOwner +
-                ", projectCollaborators=" + projectCollaborators +
+                ", name='" + name + '\'' +
+                ", citationStyle='" + citationStyle + '\'' +
+                ", owner=" + owner +
+                ", collaborators=" + collaborators +
                 '}';
     }
 }

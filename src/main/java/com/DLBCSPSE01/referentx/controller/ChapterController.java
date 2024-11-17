@@ -45,7 +45,7 @@ public class ChapterController {
 
         model.addAttribute("projectId", id);
         model.addAttribute("section", "chapters");
-        model.addAttribute("projectName", project.getProjectName());
+        model.addAttribute("projectName", project.getName());
         model.addAttribute("user", currentUser);
         return "chapters";
     }
@@ -54,7 +54,7 @@ public class ChapterController {
     public String addChapter(@PathVariable("id") int id, Model model) {
         Project project = projectService.getOne(id);
 
-        model.addAttribute("projectName", project.getProjectName());
+        model.addAttribute("projectName", project.getName());
         model.addAttribute("chapter", new Chapter());
         model.addAttribute("projectId", id);
         model.addAttribute("user", usersService.getCurrentUser());
@@ -77,8 +77,8 @@ public class ChapterController {
     public String editChapter(@PathVariable("id") int id, @PathVariable("chapterId") int chapterId, Model model) {
         Project project = projectService.getOne(id);
         Chapter chapter = chapterService.getOne(chapterId);
-        
-        model.addAttribute("projectName", project.getProjectName());
+
+        model.addAttribute("projectName", project.getName());
         model.addAttribute("chapter", chapter);
         model.addAttribute("projectId", id);
         model.addAttribute("user", usersService.getCurrentUser());
