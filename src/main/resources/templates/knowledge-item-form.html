@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link
+      th:rel="stylesheet"
+      th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+  />
+  <title>[[${formTitle}]] - ReferentX</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<section class="container">
+  <div class="row">
+    <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
+      <h1>[[${projectName}]]</h1>
+      <a class="btn btn-primary disabled" th:href="@{/projects/{id}/tasks/add(id=${projectId})}">Add knowledge
+        item</a>
+    </div>
+
+    <div class="col-md-3">
+      <div class="sidebar" th:replace="fragments/internal-sidebar :: internal-sidebar"></div>
+    </div>
+    <div class="col-md-9">
+      <h2 class="font-weight-bold mb-3">[[${formTitle}]]</h2>
+      <form
+          th:action="@{/projects/{id}/knowledge-items/{action}(id=${projectId}, action=${formAction})}"
+          th:object="${knowledgeItem}"
+          method="post">
+        <input hidden type="text" th:field="*{knowledgeItemId}">
+        <div class="form-group mb-3">
+          <label for="title">Title*</label>
+          <input required type="text" id="title" class="form-control" th:field="*{title}">
+        </div>
+        <div class="form-group mb-3">
+          <label for="content">Content</label>
+          <textarea id="content" class="form-control" th:field="*{content}"></textarea>
+        </div>
+        <div class="form-group mb-3">
+          <label for="pageRange">Page range</label>
+          <input type="text" id="pageRange" class="form-control" th:field="*{pageRange}">
+        </div>
+        <div class="form-group mb-3">
+          <label for="selectedSourceId">Associated source</label>
+          <select id="selectedSourceId" class="form-select" name="selectedSourceId">
+            <option value="0" th:selected="${knowledgeItem.source == null}">None</option>
+            <option th:each="source : ${projectSources}"
+                    th:value="${source.sourceId}"
+                    th:text="${source.title}"
+                    th:selected="${source == knowledgeItem.source}"
+            >
+            </option>
+          </select>
+        </div>
+        <div class="form-group mb-3">
+          <label for="selectedSourceId">Associated chapter</label>
+          <select id="selectedChapterId" class="form-select" name="selectedChapterId">
+            <option value="0" th:selected="${knowledgeItem.chapter == null}">None</option>
+            <option th:each="chapter : ${projectChapters}"
+                    th:value="${chapter.chapterId}"
+                    th:text="${chapter.chapterName}"
+                    th:selected="${chapter == knowledgeItem.chapter}"
+            >
+            </option>
+          </select>
+        </div>
+        <div class="form-group mt-4">
+          <button type="submit" name="submit" class="btn btn-primary px-4 py-2 mb-5">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

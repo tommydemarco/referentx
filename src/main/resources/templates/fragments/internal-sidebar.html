@@ -1,10 +1,16 @@
 <div th:fragment="internal-sidebar">
   <ul class="list-group">
-    <li th:classappend="${section == 'chapters'} ? 'bg-light' : ''" class="list-group-item">
+    <li th:classappend="${section == 'chapters'} ? 'bg-light' : ''" class="py-3 px-3 list-group-item">
       <a
           th:href="@{/projects/{id}/chapters(id=${projectId})}">Chapters</a>
     </li>
-    <li th:classappend="${section == 'tasks'} ? 'bg-light' : ''" class="list-group-item"><a
+    <li th:classappend="${section == 'sources'} ? 'bg-light' : ''" class="py-3 px-3 list-group-item"><a
+        th:href="@{/projects/{id}/sources(id=${projectId})}">Sources</a>
+    </li>
+    <li th:classappend="${section == 'knowledge-items'} ? 'bg-light' : ''" class="py-3 px-3 list-group-item"><a
+        th:href="@{/projects/{id}/knowledge-items(id=${projectId})}">Knowledge Items</a>
+    </li>
+    <li th:classappend="${section == 'tasks'} ? 'bg-light' : ''" class="py-3 px-3 list-group-item"><a
         th:href="@{/projects/{id}/tasks(id=${projectId})}">Tasks</a>
     </li>
   </ul>

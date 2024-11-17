@@ -1,0 +1,10 @@
+<div th:fragment="add-source" class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Add a new source
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" th:href="@{/projects/{id}/sources/add/book(id=${projectId})}">Add a book</a></li>
+    <li><a class="dropdown-item" th:href="@{/projects/{id}/sources/add/journal-article(id=${projectId})}">Add a
+      journal article</a></li>
+  </ul>
+</div>
