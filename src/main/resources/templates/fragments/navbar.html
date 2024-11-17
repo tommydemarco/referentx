@@ -15,18 +15,20 @@
                 <a class="nav-link" th:href="@{/projects/}">Your projects</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:href="@{/projects/}">Collaborations</a>
+                <a class="nav-link" th:href="@{/projects/?type=collaborations}">Collaborations</a>
               </li>
             </ul>
             <div style="margin-left: auto;">
               <li class="nav-item dropdown">
-                <a class="btn btn-secondary dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                  Profile dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                </div>
+                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                  <span th:text="${#strings.capitalize(user.name.substring(0, 1))}"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                  </li>
+                </ul>
               </li>
             </div>
           </div>

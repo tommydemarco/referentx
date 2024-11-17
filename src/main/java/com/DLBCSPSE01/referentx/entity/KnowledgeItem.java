@@ -15,8 +15,6 @@ public class KnowledgeItem {
     @Length
     private String content;
 
-    private String pageRange;
-
     @ManyToOne
     @JoinColumn(name = "projectId", referencedColumnName = "projectId")
     private Project project;
@@ -32,11 +30,10 @@ public class KnowledgeItem {
     public KnowledgeItem() {
     }
 
-    public KnowledgeItem(Long knowledgeItemId, String title, String content, String pageRange, Project project, BaseSource source, Chapter chapter) {
+    public KnowledgeItem(Long knowledgeItemId, String title, String content, Project project, BaseSource source, Chapter chapter) {
         this.knowledgeItemId = knowledgeItemId;
         this.title = title;
         this.content = content;
-        this.pageRange = pageRange;
         this.project = project;
         this.source = source;
         this.chapter = chapter;
@@ -64,14 +61,6 @@ public class KnowledgeItem {
 
     public void setContent(@Length String content) {
         this.content = content;
-    }
-
-    public String getPageRange() {
-        return pageRange;
-    }
-
-    public void setPageRange(String pageRange) {
-        this.pageRange = pageRange;
     }
 
     public Project getProject() {
@@ -104,7 +93,6 @@ public class KnowledgeItem {
                 "knowledgeItemId=" + knowledgeItemId +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", pageRange='" + pageRange + '\'' +
                 ", project=" + project +
                 ", source=" + source +
                 ", chapter=" + chapter +

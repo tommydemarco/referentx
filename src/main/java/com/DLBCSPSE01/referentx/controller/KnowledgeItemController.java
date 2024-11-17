@@ -11,12 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-
-import static com.DLBCSPSE01.referentx.entity.TaskStatus.*;
 
 @Controller
 public class KnowledgeItemController {
@@ -51,21 +47,17 @@ public class KnowledgeItemController {
                     public String content = item.getContent();
                     public String source = item.getSource() != null ? item.getSource().getTitle() : "";
                     public String chapter = item.getChapter() != null ? item.getChapter().getName() : "";
-                    public String pageRange = item.getPageRange();
                 })
                 .collect(Collectors.toList());
 
         ObjectMapper objectMapper = new ObjectMapper();
         String knowledgeItemsJson = objectMapper.writeValueAsString(knowledgeItemParsed);
 
-        logger.error("Knowledge Items: {}", knowledgeItemsJson);
-
-
         model.addAttribute("knowledgeItems", knowledgeItems);
         model.addAttribute("knowledgeItemsJson", knowledgeItemsJson);
         model.addAttribute("projectId", id);
         model.addAttribute("section", "knowledge-items");
-        model.addAttribute("projectName", project.getProjectName());
+        model.addAttribute("projectName", project.getName());
         model.addAttribute("user", currentUser);
 
         return "knowledge-items";
@@ -74,7 +66,6 @@ public class KnowledgeItemController {
     @GetMapping("/projects/{id}/knowledge-items/add")
     public String addKnowledgeItem(@PathVariable("id") int id, Model model) {
         Project project = projectService.getOne(id);
-        Users projectOwner = project.getProjectOwner();
         List<BaseSource> projectSources = sourceService.getSourcesByProject(project);
         List<Chapter> projectChapters = chapterService.getChaptersByProject(project);
 
@@ -83,7 +74,7 @@ public class KnowledgeItemController {
 
         model.addAttribute("knowledgeItem", new KnowledgeItem());
         model.addAttribute("projectId", id);
-        model.addAttribute("projectName", project.getProjectName());
+        model.addAttribute("projectName", project.getName());
         model.addAttribute("user", usersService.getCurrentUser());
         model.addAttribute("formTitle", "Add new knowledge item");
         model.addAttribute("formAction", "add-new");
@@ -128,7 +119,7 @@ public class KnowledgeItemController {
 
         model.addAttribute("knowledgeItem", knowledgeItem);
         model.addAttribute("projectId", id);
-        model.addAttribute("projectName", project.getProjectName());
+        model.addAttribute("projectName", project.getName());
         model.addAttribute("user", usersService.getCurrentUser());
         model.addAttribute("formTitle", "Add new knowledge item");
         model.addAttribute("formAction", "add-new");

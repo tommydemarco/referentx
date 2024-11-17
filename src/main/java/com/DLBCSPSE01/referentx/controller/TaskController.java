@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.DLBCSPSE01.referentx.entity.TaskStatus.*;
 
@@ -66,7 +65,7 @@ public class TaskController {
 
         model.addAttribute("projectId", id);
         model.addAttribute("section", "tasks");
-        model.addAttribute("projectName", project.getProjectName());
+        model.addAttribute("projectName", project.getName());
         model.addAttribute("user", currentUser);
 
         return "tasks";
@@ -75,16 +74,16 @@ public class TaskController {
     @GetMapping("/projects/{id}/tasks/add")
     public String addTask(@PathVariable("id") int id, Model model) {
         Project project = projectService.getOne(id);
-        Users projectOwner = project.getProjectOwner();
-        List<Users> projectCollaborators = project.getProjectCollaborators();
+        Users owner = project.getOwner();
+        List<Users> projectCollaborators = project.getCollaborators();
         List<Users> availableAssignees = new ArrayList<>();
-        availableAssignees.add(projectOwner);
+        availableAssignees.add(owner);
         availableAssignees.addAll(projectCollaborators);
         model.addAttribute("availableAssignees", availableAssignees);
 
         model.addAttribute("task", new Task());
         model.addAttribute("projectId", id);
-        model.addAttribute("projectName", project.getProjectName());
+        model.addAttribute("projectName", project.getName());
         model.addAttribute("user", usersService.getCurrentUser());
         model.addAttribute("formTitle", "Add new task");
         model.addAttribute("formAction", "add-new");
@@ -116,17 +115,17 @@ public class TaskController {
     @GetMapping("projects/{id}/tasks/{taskId}/edit")
     public String editTask(@PathVariable("id") int id, @PathVariable("taskId") int taskId, Model model) {
         Project project = projectService.getOne(id);
-        Users projectOwner = project.getProjectOwner();
-        List<Users> projectCollaborators = project.getProjectCollaborators();
+        Users owner = project.getOwner();
+        List<Users> projectCollaborators = project.getCollaborators();
         List<Users> availableAssignees = new ArrayList<>();
-        availableAssignees.add(projectOwner);
+        availableAssignees.add(owner);
         availableAssignees.addAll(projectCollaborators);
         model.addAttribute("availableAssignees", availableAssignees);
 
         Task task = taskService.getOne(taskId);
         model.addAttribute("task", task);
         model.addAttribute("projectId", id);
-        model.addAttribute("projectName", project.getProjectName());
+        model.addAttribute("projectName", project.getName());
         model.addAttribute("user", usersService.getCurrentUser());
         model.addAttribute("formTitle", "Edit task");
         model.addAttribute("formAction", "edit-task");

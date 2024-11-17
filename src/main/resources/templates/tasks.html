@@ -15,7 +15,7 @@
   <div class="row">
 
     <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
-      <h1>[[${projectName}]]</h1>
+      <h1>[[${name}]]</h1>
       <a class="btn btn-primary" th:href="@{/projects/{id}/tasks/add(id=${projectId})}">Add new task</a>
     </div>
 
@@ -32,10 +32,10 @@
               <th:block th:each="todoTask:${todoTasks}">
                 <div class="card" style="width: 100%">
                   <div class="card-body">
-                    <h5 class="card-title">[[${todoTask.taskTitle}]]</h5>
+                    <h5 class="card-title">[[${todoTask.title}]]</h5>
                     <h6 class="card-subtitle mb-2 text-muted"
                     >Due date: [[${#dates.format(todoTask.dueDate, 'yyyy-MM-dd')}]]</h6>
-                    <p class="card-text">[[${todoTask.taskDescription}]]</p>
+                    <p class="card-text">[[${todoTask.description}]]</p>
                     <p class="card-text text-muted">Assignee: [[${todoTask.assignee != null ?
                       todoTask.assignee.name :
                       'None'}]]</p>
@@ -71,10 +71,10 @@
               <th:block th:each="inProgressTask:${inProgressTasks}">
                 <div class="card" style="width: 100%">
                   <div class="card-body">
-                    <h5 class="card-title">[[${inProgressTask.taskTitle}]]</h5>
+                    <h5 class="card-title">[[${inProgressTask.title}]]</h5>
                     <h6 class="card-subtitle mb-2 text-muted"
                     >Due date: [[${#dates.format(inProgressTask.dueDate, 'yyyy-MM-dd')}]]</h6>
-                    <p class="card-text">[[${inProgressTask.taskDescription}]]</p>
+                    <p class="card-text">[[${inProgressTask.description}]]</p>
                     <p class="card-text text-muted">Assignee: [[${inProgressTask.assignee != null ?
                       inProgressTask.assignee.name :
                       'None'}]]</p>
@@ -118,10 +118,10 @@
               <th:block th:each="doneTask:${doneTasks}">
                 <div class="card" style="width: 100%">
                   <div class="card-body">
-                    <h5 class="card-title">[[${doneTask.taskTitle}]]</h5>
+                    <h5 class="card-title">[[${doneTask.title}]]</h5>
                     <h6 class="card-subtitle mb-2 text-muted"
                     >Due date: [[${#dates.format(doneTask.dueDate, 'yyyy-MM-dd')}]]</h6>
-                    <p class="card-text">[[${doneTask.taskDescription}]]</p>
+                    <p class="card-text">[[${doneTask.description}]]</p>
                     <p class="card-text text-muted">Assignee: [[${doneTask.assignee != null ?
                       doneTask.assignee.name :
                       'None'}]]</p>

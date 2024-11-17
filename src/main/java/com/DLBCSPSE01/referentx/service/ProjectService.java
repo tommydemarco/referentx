@@ -19,10 +19,15 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public List<Project> getProjectsByOwner(Users user) {
+    public List<Project> getByOwner(Users user) {
 
-        List<Project> projectsByOwner = projectRepository.findByProjectOwner(user);
+        List<Project> projectsByOwner = projectRepository.findByOwner(user);
         return projectsByOwner;
+    }
+
+    public List<Project> getByCollaborator(Users user) {
+        List<Project> projectsByCollaborator = projectRepository.findByCollaborators(user);
+        return projectsByCollaborator;
     }
 
     public Project getOne(int id) {
