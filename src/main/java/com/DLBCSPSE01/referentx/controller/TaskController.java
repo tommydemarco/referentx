@@ -84,6 +84,7 @@ public class TaskController {
 
         model.addAttribute("task", new Task());
         model.addAttribute("projectId", id);
+        model.addAttribute("projectName", project.getProjectName());
         model.addAttribute("user", usersService.getCurrentUser());
         model.addAttribute("formTitle", "Add new task");
         model.addAttribute("formAction", "add-new");
@@ -125,6 +126,7 @@ public class TaskController {
         Task task = taskService.getOne(taskId);
         model.addAttribute("task", task);
         model.addAttribute("projectId", id);
+        model.addAttribute("projectName", project.getProjectName());
         model.addAttribute("user", usersService.getCurrentUser());
         model.addAttribute("formTitle", "Edit task");
         model.addAttribute("formAction", "edit-task");

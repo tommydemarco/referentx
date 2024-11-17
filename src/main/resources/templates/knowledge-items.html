@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <link
+      th:rel="stylesheet"
+      th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "
+  />
+  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+  <title>Knowledge Items - ReferentX</title>
+</head>
+
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<section class="container">
+  <div class="row">
+
+    <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
+      <h1>[[${projectName}]]</h1>
+      <a class="btn btn-primary" th:href="@{/projects/{id}/knowledge-items/add(id=${projectId})}">Add knowledge item</a>
+    </div>
+
+    <div class="col-md-3">
+      <div class="sidebar" th:replace="fragments/internal-sidebar :: internal-sidebar"></div>
+    </div>
+
+    <div class="col-md-9">
+      <div th:if="${knowledgeItems.isEmpty()}">
+        <p>There are no knowledge items associated to this project yet</p>
+      </div>
+
+      <div id="knowledge-item-table" th:classappend="${knowledgeItems.isEmpty()} ? 'd-none' : ''"
+           class="ag-theme-quartz" style="height: 400px"></div>
+
+    </div>
+  </div>
+</section>
+<div th:replace="fragments/footer :: footer"></div>
+
+<script th:inline="javascript">
+  const data = JSON.parse([[${knowledgeItemsJson}]]);
+  const projectId = [[${projectId}]];
+
+  const gridOptions = {
+      rowData: data,
+      columnDefs: [
+          { field: "title" },
+          { field: "content" },
+          { field: "pageRange" },
+          { field: "source" },
+          { field: "chapter" },
+          {
+             headerName: "Actions",
+            field: "knowledgeItemId",
+            cellRenderer: function(params) {
+            return `<div class="d-flex gap-2">
+                        <a href="/projects/${projectId}/knowledge-items/${params.value}/edit" class="btn btn-link">Edit</a>
+                        <form
+                            action="/projects/${projectId}/knowledge-items/${params.value}/delete"
+                            method="post">
+                          <input type="hidden" name="_method" value="delete"/>
+                          <button type="submit" class="btn btn-link mb-2">Delete
+                          </button>
+                        </form>
+                    </div>`;
+        }
+    }
+      ]
+  };
+  const knowledgeItemTable = document.querySelector('#knowledge-item-table');
+  agGrid.createGrid(knowledgeItemTable, gridOptions);
+</script>
+</body>
+</html>

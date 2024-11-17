@@ -28,6 +28,7 @@
           <div class="row">
             <div class="col-md-4">
               <h5 class="mb-3">Todo</h5>
+              <div th:if="${todoTasks.isEmpty()}">There are no tasks in todo</div>
               <th:block th:each="todoTask:${todoTasks}">
                 <div class="card" style="width: 100%">
                   <div class="card-body">
@@ -66,6 +67,7 @@
             </div>
             <div class="col-md-4">
               <h5 class="mb-3">In progress</h5>
+              <div th:if="${inProgressTasks.isEmpty()}">There are no tasks in progress</div>
               <th:block th:each="inProgressTask:${inProgressTasks}">
                 <div class="card" style="width: 100%">
                   <div class="card-body">
@@ -112,6 +114,7 @@
             </div>
             <div class="col-md-4">
               <h5 class="mb-3">Done</h5>
+              <div th:if="${doneTasks.isEmpty()}">There are no tasks in done</div>
               <th:block th:each="doneTask:${doneTasks}">
                 <div class="card" style="width: 100%">
                   <div class="card-body">

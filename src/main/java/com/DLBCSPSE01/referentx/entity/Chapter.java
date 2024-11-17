@@ -10,7 +10,7 @@ public class Chapter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer chapterId;
 
-    private String chapterName;
+    private String name;
 
     @Length(max = 10000)
     private String chapterDescription;
@@ -22,9 +22,9 @@ public class Chapter {
     public Chapter() {
     }
 
-    public Chapter(Integer chapterId, String chapterName, String chapterDescription, Project project) {
+    public Chapter(Integer chapterId, String name, String chapterDescription, Project project) {
         this.chapterId = chapterId;
-        this.chapterName = chapterName;
+        this.name = name;
         this.chapterDescription = chapterDescription;
         this.project = project;
     }
@@ -37,12 +37,12 @@ public class Chapter {
         this.chapterId = chapterId;
     }
 
-    public String getChapterName() {
-        return chapterName;
+    public String getName() {
+        return name;
     }
 
-    public void setChapterName(String chapterName) {
-        this.chapterName = chapterName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Project getProject() {
@@ -65,7 +65,7 @@ public class Chapter {
     public String toString() {
         return "Chapter{" +
                 "chapterId=" + chapterId +
-                ", chapterName='" + chapterName + '\'' +
+                ", name='" + name + '\'' +
                 ", project=" + project +
                 '}';
     }
