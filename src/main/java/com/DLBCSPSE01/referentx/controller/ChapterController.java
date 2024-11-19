@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class ChapterController {
         Project project = projectService.getOne(id);
 
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            List<Chapter> chapters = chapterService.getChaptersByProject(project);
+            List<Chapter> chapters = chapterService.getByProject(project);
             model.addAttribute("chapters", chapters);
         }
 
@@ -64,12 +65,12 @@ public class ChapterController {
     }
 
     @PostMapping("/projects/{id}/chapters/add-new")
-    public String addChapterPost(@PathVariable("id") int id, Chapter chapter, Model model) {
+    public String addChapterPost(@PathVariable("id") int id, Chapter chapter, RedirectAttributes redirectAttributes) {
         Project project = projectService.getOne(id);
         chapter.setProject(project);
-        model.addAttribute("chapter", chapter);
-        Chapter saved = chapterService.addNew(chapter);
-
+        chapterService.addNew(chapter);
+        redirectAttributes.addFlashAttribute("message", "Chapter added successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
         return "redirect:/projects/" + id + "/chapters";
     }
 
@@ -88,21 +89,20 @@ public class ChapterController {
     }
 
     @PostMapping("/projects/{id}/chapters/edit-chapter")
-    public String editChapterPost(@PathVariable("id") int id, Chapter chapter, Model model) {
-
+    public String editChapterPost(@PathVariable("id") int id, Chapter chapter, RedirectAttributes redirectAttributes) {
         Project project = projectService.getOne(id);
         chapter.setProject(project);
-
-        model.addAttribute("chapter", chapter);
-        Chapter saved = chapterService.addNew(chapter);
-
+        chapterService.edit(chapter);
+        redirectAttributes.addFlashAttribute("message", "Chapter edited successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
         return "redirect:/projects/" + id + "/chapters";
     }
 
     @DeleteMapping("/projects/{id}/chapters/{chapterId}/delete")
-    public String deleteChapter(@PathVariable("id") int id, Chapter chapter, Model model) {
-
-        chapterService.deleteChapter(chapter);
+    public String deleteChapter(@PathVariable("id") int id, Chapter chapter, RedirectAttributes redirectAttributes) {
+        chapterService.delete(chapter);
+        redirectAttributes.addFlashAttribute("message", "Chapter deleted successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
         return "redirect:/projects/" + id + "/chapters";
     }
 }

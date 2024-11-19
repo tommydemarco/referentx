@@ -19,16 +19,19 @@ public class ChapterService {
         return chapterRepository.save(chapter);
     }
 
-    public List<Chapter> getChaptersByProject(Project project) {
-        List<Chapter> chaptersByProject = chapterRepository.findByProject(project);
-        return chaptersByProject;
+    public Chapter edit(Chapter chapter) {
+        return chapterRepository.save(chapter);
+    }
+
+    public List<Chapter> getByProject(Project project) {
+        return chapterRepository.findByProject(project);
     }
 
     public Chapter getOne(int id) {
         return chapterRepository.findById(id).orElseThrow(() -> new RuntimeException("Chapter not found"));
     }
 
-    public void deleteChapter(Chapter chapter) {
+    public void delete(Chapter chapter) {
         chapterRepository.delete(chapter);
     }
 }

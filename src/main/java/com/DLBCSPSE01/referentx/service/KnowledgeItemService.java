@@ -20,9 +20,12 @@ public class KnowledgeItemService {
         return knowledgeItemRepository.save(knowledgeItem);
     }
 
+    public KnowledgeItem edit(KnowledgeItem knowledgeItem) {
+        return knowledgeItemRepository.save(knowledgeItem);
+    }
+
     public List<KnowledgeItem> getByProject(Project project) {
-        List<KnowledgeItem> knowledgeItemsByProject = knowledgeItemRepository.findByProject(project);
-        return knowledgeItemsByProject;
+        return knowledgeItemRepository.findByProject(project);
     }
 
     public KnowledgeItem getOne(int id) {

@@ -20,19 +20,18 @@ public class TaskService {
     }
 
     public List<Task> getByProject(Project project) {
-        List<Task> tasksByProject = taskRepository.findByProject(project);
-        return tasksByProject;
+        return taskRepository.findByProject(project);
     }
 
     public Task getOne(int id) {
         return taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
     }
 
-    public void deleteTask(Task task) {
+    public void delete(Task task) {
         taskRepository.delete(task);
     }
 
-    public void updateTask(Task task) {
+    public void edit(Task task) {
         Task savedTask = taskRepository.findById(task.getTaskId())
                 .orElseThrow(() -> new RuntimeException("Task not found"));
 

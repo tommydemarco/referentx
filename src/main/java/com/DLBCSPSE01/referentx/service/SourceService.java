@@ -19,16 +19,19 @@ public class SourceService {
         return sourceRepository.save(source);
     }
 
-    public List<BaseSource> getSourcesByProject(Project project) {
-        List<BaseSource> sourcesByProject = sourceRepository.findByProject(project);
-        return sourcesByProject;
+    public BaseSource edit(BaseSource source) {
+        return sourceRepository.save(source);
+    }
+
+    public List<BaseSource> getByProject(Project project) {
+        return sourceRepository.findByProject(project);
     }
 
     public BaseSource getOne(int id) {
         return sourceRepository.findById(id).orElseThrow(() -> new RuntimeException("Source not found"));
     }
 
-    public void deleteSource(BaseSource source) {
+    public void delete(BaseSource source) {
         sourceRepository.delete(source);
     }
 }

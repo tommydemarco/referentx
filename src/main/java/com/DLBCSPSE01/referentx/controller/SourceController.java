@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class SourceController {
         Project project = projectService.getOne(id);
 
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            List<BaseSource> sources = sourceService.getSourcesByProject(project);
+            List<BaseSource> sources = sourceService.getByProject(project);
             model.addAttribute("sources", sources);
         }
 
@@ -58,6 +59,9 @@ public class SourceController {
             case "journal-article":
                 source = new JournalArticle();
                 break;
+            case "internet-document":
+                source = new InternetDocument();
+                break;
             default:
                 throw new IllegalArgumentException("Invalid source type value");
         }
@@ -74,14 +78,20 @@ public class SourceController {
     }
 
     @PostMapping("/projects/{id}/sources/add-new/book")
-    public String addBookPost(@PathVariable("id") int projectId, Book book) {
-        saveNewSource(book, projectId);
+    public String addBookPost(@PathVariable("id") int projectId, Book book, RedirectAttributes redirectAttributes) {
+        saveNewSource(book, projectId, redirectAttributes);
         return "redirect:/projects/" + projectId + "/sources";
     }
 
     @PostMapping("/projects/{id}/sources/add-new/journal-article")
-    public String addJournalArticlePost(@PathVariable("id") int projectId, JournalArticle journalArticle) {
-        saveNewSource(journalArticle, projectId);
+    public String addJournalArticlePost(@PathVariable("id") int projectId, JournalArticle journalArticle, RedirectAttributes redirectAttributes) {
+        saveNewSource(journalArticle, projectId, redirectAttributes);
+        return "redirect:/projects/" + projectId + "/sources";
+    }
+
+    @PostMapping("/projects/{id}/sources/add-new/internet-document")
+    public String addInternetDocumentPost(@PathVariable("id") int projectId, InternetDocument internetDocument, RedirectAttributes redirectAttributes) {
+        saveNewSource(internetDocument, projectId, redirectAttributes);
         return "redirect:/projects/" + projectId + "/sources";
     }
 
@@ -101,28 +111,46 @@ public class SourceController {
     }
 
     @PostMapping("/projects/{id}/sources/edit-source/book")
-    public String editBookPost(@PathVariable("id") int projectId, Book book) {
-        saveNewSource(book, projectId);
+    public String editBookPost(@PathVariable("id") int projectId, Book book, RedirectAttributes redirectAttributes) {
+        editSource(book, projectId, redirectAttributes);
         return "redirect:/projects/" + projectId + "/sources";
     }
 
     @PostMapping("/projects/{id}/sources/edit-source/journal-article")
-    public String editJournalArticlePost(@PathVariable("id") int projectId, JournalArticle journalArticle) {
-        saveNewSource(journalArticle, projectId);
+    public String editJournalArticlePost(@PathVariable("id") int projectId, JournalArticle journalArticle, RedirectAttributes redirectAttributes) {
+        editSource(journalArticle, projectId, redirectAttributes);
+        return "redirect:/projects/" + projectId + "/sources";
+    }
+
+    @PostMapping("/projects/{id}/sources/edit-source/internet-document")
+    public String editInternetDocumentPost(@PathVariable("id") int projectId, InternetDocument internetDocument, RedirectAttributes redirectAttributes) {
+        editSource(internetDocument, projectId, redirectAttributes);
         return "redirect:/projects/" + projectId + "/sources";
     }
 
     @DeleteMapping("/projects/{id}/sources/{sourceId}/delete")
-    public String deleteSource(@PathVariable("id") int id, @PathVariable("sourceId") int sourceId) {
+    public String deleteSource(@PathVariable("id") int id, @PathVariable("sourceId") int sourceId, RedirectAttributes redirectAttributes) {
         BaseSource source = sourceService.getOne(sourceId);
-        sourceService.deleteSource(source);
+        sourceService.delete(source);
+        redirectAttributes.addFlashAttribute("message", "Source deleted successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
         return "redirect:/projects/" + id + "/sources";
     }
 
-    public void saveNewSource(BaseSource source, int projectId) {
+    public void saveNewSource(BaseSource source, int projectId, RedirectAttributes redirectAttributes) {
         Project project = projectService.getOne(projectId);
         source.setProject(project);
+        redirectAttributes.addFlashAttribute("message", "Source added successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
         sourceService.addNew(source);
+    }
+
+    public void editSource(BaseSource source, int projectId, RedirectAttributes redirectAttributes) {
+        Project project = projectService.getOne(projectId);
+        source.setProject(project);
+        redirectAttributes.addFlashAttribute("message", "Source edited successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
+        sourceService.edit(source);
     }
 }
 

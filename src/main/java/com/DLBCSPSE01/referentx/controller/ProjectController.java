@@ -9,10 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +65,7 @@ public class ProjectController {
                 .filter(item -> !item.equals(owner))
                 .collect(Collectors.toList());
 
+        model.addAttribute("citationStyles", CitationStyle.values());
         model.addAttribute("project", new Project());
         model.addAttribute("user", owner);
         model.addAttribute("availableCollaborators", availableCollaborators);
@@ -77,7 +76,7 @@ public class ProjectController {
     }
 
     @PostMapping("/projects/add-new")
-    public String addProjectPost(@RequestParam("collaboratorId") List<Integer> collaboratorIds, Project project, Model model) {
+    public String addProjectPost(@RequestParam("collaboratorId") List<Integer> collaboratorIds, Project project, RedirectAttributes redirectAttributes) {
         List<Users> selectedCollaborators = usersService.getAllById(collaboratorIds);
         project.setCollaborators(selectedCollaborators);
 
@@ -85,8 +84,11 @@ public class ProjectController {
         if (user != null) {
             project.setOwner(user);
         }
-        model.addAttribute("project", project);
-        Project saved = projectService.addNew(project);
+
+        projectService.addNew(project);
+        redirectAttributes.addFlashAttribute("message", "Project added successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
+
         return "redirect:/projects/";
     }
 
@@ -101,7 +103,7 @@ public class ProjectController {
                 .filter(item -> !item.equals(owner))
                 .collect(Collectors.toList());
 
-
+        model.addAttribute("citationStyles", CitationStyle.values());
         model.addAttribute("project", project);
         model.addAttribute("user", currentUser);
         model.addAttribute("availableCollaborators", availableCollaborators);
@@ -112,7 +114,7 @@ public class ProjectController {
     }
 
     @PostMapping("/projects/edit-project")
-    public String editProjectPost(@RequestParam("collaboratorId") List<Integer> collaboratorIds, Project project, Model model) {
+    public String editProjectPost(@RequestParam("collaboratorId") List<Integer> collaboratorIds, Project project, RedirectAttributes redirectAttributes) {
         List<Users> selectedCollaborators = usersService.getAllById(collaboratorIds);
         project.setCollaborators(selectedCollaborators);
 
@@ -121,8 +123,19 @@ public class ProjectController {
             project.setOwner(user);
         }
 
-        model.addAttribute("project", project);
-        Project saved = projectService.addNew(project);
+        projectService.edit(project);
+        redirectAttributes.addFlashAttribute("message", "Project edited successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
+
+        return "redirect:/projects/";
+    }
+
+    @DeleteMapping("/projects/{id}/delete")
+    public String deleteProject(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+        Project project = projectService.getOne(id);
+        projectService.delete(project);
+        redirectAttributes.addFlashAttribute("message", "Project deleted successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
         return "redirect:/projects/";
     }
 }

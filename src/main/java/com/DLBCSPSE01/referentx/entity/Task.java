@@ -29,18 +29,23 @@ public class Task {
     @JoinColumn(name = "assignee", referencedColumnName = "userId")
     private Users assignee;
 
+    @ManyToOne
+    @JoinColumn(name = "creator", referencedColumnName = "userId")
+    private Users creator;
+
     private TaskStatus status;
 
     public Task() {
     }
 
-    public Task(Integer taskId, String title, String description, Project project, Date dueDate, Users assignee, TaskStatus status) {
+    public Task(Integer taskId, String title, String description, Project project, Date dueDate, Users assignee, Users creator, TaskStatus status) {
         this.taskId = taskId;
         this.title = title;
         this.description = description;
         this.project = project;
         this.dueDate = dueDate;
         this.assignee = assignee;
+        this.creator = creator;
         this.status = status;
     }
 
@@ -90,6 +95,14 @@ public class Task {
 
     public void setAssignee(Users assignee) {
         this.assignee = assignee;
+    }
+
+    public Users getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Users creator) {
+        this.creator = creator;
     }
 
     public TaskStatus getStatus() {

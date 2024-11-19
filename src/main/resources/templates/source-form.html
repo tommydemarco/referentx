@@ -13,7 +13,7 @@
 <section class="container">
   <div class="row">
     <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
-      <h1>[[${name}]]</h1>
+      <h1>[[${projectName}]]</h1>
       <div th:replace="fragments/add-source :: add-source"></div>
     </div>
 
@@ -40,7 +40,8 @@
           <input type="text" id="onlineAddress" class="form-control" th:field="*{onlineAddress}">
         </div>
         <!-- conditional elements -->
-        <div th:if="${sourceType == 'book' || sourceType == 'journal-article'}" class="form-group mb-3">
+        <div th:if="${sourceType == 'book' || sourceType == 'journal-article' || sourceType == 'internet-document'}"
+             class="form-group mb-3">
           <label for="authors">Authors</label>
           <input type="text" id="authors" class="form-control" th:field="*{authors}">
           <small id="authorHelp" class="form-text text-muted">
@@ -79,6 +80,16 @@
         <div th:if="${sourceType == 'journal-article'}" class="form-group mb-3">
           <label for="articleNumber">Article number</label>
           <input type="text" id="articleNumber" class="form-control" th:field="*{articleNumber}">
+        </div>
+
+        <!-- internet document -->
+        <div th:if="${sourceType == 'internet-document'}" class="form-group mb-3">
+          <label for="organization">Organization</label>
+          <input type="text" id="organization" class="form-control" th:field="*{organization}">
+        </div>
+        <div th:if="${sourceType == 'internet-document'}" class="form-group mb-3">
+          <label for="accessedAt">Accessed at</label>
+          <input type="text" id="accessedAt" class="form-control" th:field="*{accessedAt}">
         </div>
 
         <div class="form-group mt-4">

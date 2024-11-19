@@ -16,16 +16,21 @@
             method="post">
         <input hidden type="text" th:field="*{projectId}">
         <div class="form-group mb-3">
-          <label for="name">Project name</label>
-          <input type="text" id="name" class="form-control" th:field="*{name}">
+          <label for="name">Project name*</label>
+          <input required type="text" id="name" class="form-control" th:field="*{name}">
         </div>
         <div class="form-group mb-3">
           <label for="description">Project description</label>
           <textarea id="description" class="form-control" th:field="*{description}"></textarea>
         </div>
         <div class="form-group mb-3">
-          <label for="citationStyle">Project citation style</label>
-          <input type="text" id="citationStyle" class="form-control" th:field="*{citationStyle}">
+          <label for="citationStyle">Citation Style*</label>
+          <select id="citationStyle" class="form-select" th:field="*{citationStyle}">
+            <option value="" disabled selected>Select a citation style</option>
+            <option th:each="style : ${citationStyles}"
+                    th:value="${style}"
+                    th:text="${style.label}"></option>
+          </select>
         </div>
         <div th:if="${availableCollaborators.size() == 0}">
           <input class="form-check-input" type="hidden" name="collaboratorId">

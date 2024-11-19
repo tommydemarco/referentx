@@ -15,7 +15,8 @@ public class Project {
 
     private String description;
 
-    private String citationStyle;
+    @Enumerated(EnumType.STRING)
+    private CitationStyle citationStyle;
 
     @ManyToOne
     @JoinColumn(name = "owner", referencedColumnName = "userId")
@@ -32,7 +33,7 @@ public class Project {
     public Project() {
     }
 
-    public Project(Long projectId, String name, String description, String citationStyle, Users owner, List<Users> collaborators) {
+    public Project(Long projectId, String name, String description, CitationStyle citationStyle, Users owner, List<Users> collaborators) {
         this.projectId = projectId;
         this.name = name;
         this.description = description;
@@ -65,11 +66,11 @@ public class Project {
         this.description = description;
     }
 
-    public String getCitationStyle() {
+    public CitationStyle getCitationStyle() {
         return citationStyle;
     }
 
-    public void setCitationStyle(String citationStyle) {
+    public void setCitationStyle(CitationStyle citationStyle) {
         this.citationStyle = citationStyle;
     }
 
