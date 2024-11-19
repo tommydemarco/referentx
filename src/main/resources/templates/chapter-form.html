@@ -14,7 +14,7 @@
 <section class="container">
   <div class="row">
     <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
-      <h1>[[${name}]]</h1>
+      <h1>[[${projectName}]]</h1>
       <a class="btn btn-primary" th:href="@{/projects/{id}/chapters/add(id=${projectId})}">Add new chapter</a>
     </div>
 
@@ -29,12 +29,12 @@
           method="post">
         <input hidden type="text" th:field="*{chapterId}">
         <div class="form-group mb-3">
-          <label for="chapterName">Chapter name</label>
-          <input type="text" id="chapterName" class="form-control" th:field="*{chapterName}">
+          <label for="name">Chapter name*</label>
+          <input required type="text" id="name" class="form-control" th:field="*{name}">
         </div>
         <div class="form-group mb-3">
-          <label for="chapterDescription">Chapter description</label>
-          <input type="text" id="chapterDescription" class="form-control" th:field="*{chapterDescription}">
+          <label for="description">Chapter description</label>
+          <textarea id="description" class="form-control" th:field="*{description}"></textarea>
         </div>
         <div class="form-group mt-4">
           <button type="submit" name="submit" class="btn btn-primary px-4 py-2 mb-5">Save</button>

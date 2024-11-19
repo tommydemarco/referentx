@@ -19,19 +19,24 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public List<Project> getByOwner(Users user) {
+    public Project edit(Project project) {
+        return projectRepository.save(project);
+    }
 
-        List<Project> projectsByOwner = projectRepository.findByOwner(user);
-        return projectsByOwner;
+    public List<Project> getByOwner(Users user) {
+        return projectRepository.findByOwner(user);
     }
 
     public List<Project> getByCollaborator(Users user) {
-        List<Project> projectsByCollaborator = projectRepository.findByCollaborators(user);
-        return projectsByCollaborator;
+        return projectRepository.findByCollaborators(user);
     }
 
     public Project getOne(int id) {
         return projectRepository.findById(id).orElseThrow(() -> new RuntimeException("Project not found"));
+    }
+
+    public void delete(Project project) {
+        projectRepository.delete(project);
     }
 }
 

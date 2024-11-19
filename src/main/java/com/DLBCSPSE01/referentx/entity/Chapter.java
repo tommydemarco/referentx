@@ -13,7 +13,7 @@ public class Chapter {
     private String name;
 
     @Length(max = 10000)
-    private String chapterDescription;
+    private String description;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "projectId", referencedColumnName = "projectId")
@@ -22,10 +22,10 @@ public class Chapter {
     public Chapter() {
     }
 
-    public Chapter(Integer chapterId, String name, String chapterDescription, Project project) {
+    public Chapter(Integer chapterId, String name, String description, Project project) {
         this.chapterId = chapterId;
         this.name = name;
-        this.chapterDescription = chapterDescription;
+        this.description = description;
         this.project = project;
     }
 
@@ -53,12 +53,12 @@ public class Chapter {
         this.project = project;
     }
 
-    public @Length(max = 10000) String getChapterDescription() {
-        return chapterDescription;
+    public @Length(max = 10000) String getDescription() {
+        return description;
     }
 
-    public void setChapterDescription(@Length(max = 10000) String chapterDescription) {
-        this.chapterDescription = chapterDescription;
+    public void setDescription(@Length(max = 10000) String description) {
+        this.description = description;
     }
 
     @Override

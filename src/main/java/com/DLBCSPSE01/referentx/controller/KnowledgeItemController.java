@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,8 +67,8 @@ public class KnowledgeItemController {
     @GetMapping("/projects/{id}/knowledge-items/add")
     public String addKnowledgeItem(@PathVariable("id") int id, Model model) {
         Project project = projectService.getOne(id);
-        List<BaseSource> projectSources = sourceService.getSourcesByProject(project);
-        List<Chapter> projectChapters = chapterService.getChaptersByProject(project);
+        List<BaseSource> projectSources = sourceService.getByProject(project);
+        List<Chapter> projectChapters = chapterService.getByProject(project);
 
         model.addAttribute("projectSources", projectSources);
         model.addAttribute("projectChapters", projectChapters);
@@ -83,7 +84,7 @@ public class KnowledgeItemController {
     }
 
     @PostMapping("/projects/{id}/knowledge-items/add-new")
-    public String addKnowledgeItemPost(@PathVariable("id") int id, @RequestParam("selectedSourceId") int sourceId, @RequestParam("selectedChapterId") int chapterId, KnowledgeItem knowledgeItem, Model model) {
+    public String addKnowledgeItemPost(@PathVariable("id") int id, @RequestParam("selectedSourceId") int sourceId, @RequestParam("selectedChapterId") int chapterId, KnowledgeItem knowledgeItem, RedirectAttributes redirectAttributes) {
         Project project = projectService.getOne(id);
         knowledgeItem.setProject(project);
 
@@ -101,9 +102,9 @@ public class KnowledgeItemController {
             knowledgeItem.setChapter(chapter);
         }
 
-        model.addAttribute("knowledgeItem", knowledgeItem);
-
-        KnowledgeItem saved = knowledgeItemService.addNew(knowledgeItem);
+        knowledgeItemService.addNew(knowledgeItem);
+        redirectAttributes.addFlashAttribute("message", "Knowledge Item added successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
         return "redirect:/projects/" + id + "/knowledge-items";
     }
 
@@ -111,8 +112,8 @@ public class KnowledgeItemController {
     public String editKnowledgeItem(@PathVariable("id") int id, @PathVariable("knowledgeItemId") int knowledgeItemId, Model model) {
         KnowledgeItem knowledgeItem = knowledgeItemService.getOne(knowledgeItemId);
         Project project = projectService.getOne(id);
-        List<BaseSource> projectSources = sourceService.getSourcesByProject(project);
-        List<Chapter> projectChapters = chapterService.getChaptersByProject(project);
+        List<BaseSource> projectSources = sourceService.getByProject(project);
+        List<Chapter> projectChapters = chapterService.getByProject(project);
 
         model.addAttribute("projectSources", projectSources);
         model.addAttribute("projectChapters", projectChapters);
@@ -128,7 +129,7 @@ public class KnowledgeItemController {
     }
 
     @PostMapping("/projects/{id}/knowledge-items/edit-knowledge-item")
-    public String editKnowledgeItemPost(@PathVariable("id") int id, @RequestParam("selectedSourceId") int sourceId, @RequestParam("selectedChapterId") int chapterId, KnowledgeItem knowledgeItem, Model model) {
+    public String editKnowledgeItemPost(@PathVariable("id") int id, @RequestParam("selectedSourceId") int sourceId, @RequestParam("selectedChapterId") int chapterId, KnowledgeItem knowledgeItem, RedirectAttributes redirectAttributes) {
         Project project = projectService.getOne(id);
         knowledgeItem.setProject(project);
 
@@ -146,16 +147,19 @@ public class KnowledgeItemController {
             knowledgeItem.setChapter(chapter);
         }
 
-        model.addAttribute("knowledgeItem", knowledgeItem);
+        redirectAttributes.addFlashAttribute("message", "Knowledge Item edited successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
 
-        KnowledgeItem saved = knowledgeItemService.addNew(knowledgeItem);
+        knowledgeItemService.addNew(knowledgeItem);
         return "redirect:/projects/" + id + "/knowledge-items";
     }
 
     @DeleteMapping("/projects/{id}/knowledge-items/{knowledgeItemId}/delete")
-    public String deleteKnowledgeItem(@PathVariable("id") int id, @PathVariable("knowledgeItemId") int knowledgeItemId) {
+    public String deleteKnowledgeItem(@PathVariable("id") int id, @PathVariable("knowledgeItemId") int knowledgeItemId, RedirectAttributes redirectAttributes) {
         KnowledgeItem knowledgeItem = knowledgeItemService.getOne(knowledgeItemId);
         knowledgeItemService.delete(knowledgeItem);
+        redirectAttributes.addFlashAttribute("message", "Knowledge Item deleted successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
         return "redirect:/projects/" + id + "/knowledge-items";
     }
 }

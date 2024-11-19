@@ -15,7 +15,7 @@
   <div class="row">
 
     <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
-      <h1>[[${name}]]</h1>
+      <h1>[[${projectName}]]</h1>
       <a class="btn btn-primary" th:href="@{/projects/{id}/tasks/add(id=${projectId})}">Add new task</a>
     </div>
 
@@ -30,7 +30,7 @@
               <h5 class="mb-3">Todo</h5>
               <div th:if="${todoTasks.isEmpty()}">There are no tasks in todo</div>
               <th:block th:each="todoTask:${todoTasks}">
-                <div class="card" style="width: 100%">
+                <div class="card mb-3" style="width: 100%">
                   <div class="card-body">
                     <h5 class="card-title">[[${todoTask.title}]]</h5>
                     <h6 class="card-subtitle mb-2 text-muted"
@@ -41,9 +41,11 @@
                       'None'}]]</p>
                   </div>
                   <div class="card-footer py-3 d-flex flex-wrap gap-2">
-                    <a th:href="@{/projects/{id}/tasks/{taskId}/edit(id=${projectId}, taskId=${todoTask.taskId})}"
+                    <a th:if="${isProjectOwner || user.userId == todoTask.creator.userId}"
+                       th:href="@{/projects/{id}/tasks/{taskId}/edit(id=${projectId}, taskId=${todoTask.taskId})}"
                        class="btn btn-secondary">Edit</a>
                     <form
+                        th:if="${isProjectOwner || user.userId == todoTask.creator.userId}"
                         th:action="@{/projects/{id}/tasks/{taskId}/delete(id=${projectId}, taskId=${todoTask.taskId})}"
                         th:object="${todoTask}"
                         method="post">
@@ -56,7 +58,10 @@
                           th:action="@{/projects/{id}/tasks/{taskId}/update-status(id=${projectId}, taskId=${todoTask.taskId})}"
                           method="post">
                         <input type="hidden" name="status" value="progress"/>
-                        <button type="submit" title="set in progress" class="btn btn-light border">
+                        <button
+                            th:disabled="${!isProjectOwner && (user.userId != todoTask.assignee?.userId) && (user.userId != todoTask.creator?.userId)}"
+                            type="submit"
+                            title="set in progress" class="btn btn-light border">
                           &#8702;
                         </button>
                       </form>
@@ -69,7 +74,7 @@
               <h5 class="mb-3">In progress</h5>
               <div th:if="${inProgressTasks.isEmpty()}">There are no tasks in progress</div>
               <th:block th:each="inProgressTask:${inProgressTasks}">
-                <div class="card" style="width: 100%">
+                <div class="card mb-3" style="width: 100%">
                   <div class="card-body">
                     <h5 class="card-title">[[${inProgressTask.title}]]</h5>
                     <h6 class="card-subtitle mb-2 text-muted"
@@ -80,9 +85,11 @@
                       'None'}]]</p>
                   </div>
                   <div class="card-footer py-3 d-flex flex-wrap gap-2">
-                    <a th:href="@{/projects/{id}/tasks/{taskId}/edit(id=${projectId}, taskId=${inProgressTask.taskId})}"
+                    <a th:if="${isProjectOwner || user.userId == inProgressTask.creator.userId}"
+                       th:href="@{/projects/{id}/tasks/{taskId}/edit(id=${projectId}, taskId=${inProgressTask.taskId})}"
                        class="btn btn-secondary">Edit</a>
                     <form
+                        th:if="${isProjectOwner || user.userId == inProgressTask.creator.userId}"
                         th:action="@{/projects/{id}/tasks/{taskId}/delete(id=${projectId}, taskId=${inProgressTask.taskId})}"
                         th:object="${inProgressTask}"
                         method="post">
@@ -95,7 +102,9 @@
                           th:action="@{/projects/{id}/tasks/{taskId}/update-status(id=${projectId}, taskId=${inProgressTask.taskId})}"
                           method="post">
                         <input type="hidden" name="status" value="todo"/>
-                        <button title="set as todo" class="btn btn-light border">
+                        <button
+                            th:disabled="${!isProjectOwner && (user.userId != inProgressTask.assignee?.userId) && (user.userId != inProgressTask.creator?.userId)}"
+                            title="set as todo" class="btn btn-light border">
                           &#8701;
                         </button>
                       </form>
@@ -103,7 +112,9 @@
                           th:action="@{/projects/{id}/tasks/{taskId}/update-status(id=${projectId}, taskId=${inProgressTask.taskId})}"
                           method="post">
                         <input type="hidden" name="status" value="done"/>
-                        <button type="submit" title="set done" class="btn btn-light border">
+                        <button
+                            th:disabled="${!isProjectOwner && (user.userId != inProgressTask.assignee?.userId) && (user.userId != inProgressTask.creator?.userId)}"
+                            type="submit" title="set done" class="btn btn-light border">
                           &#8702;
                         </button>
                       </form>
@@ -116,7 +127,7 @@
               <h5 class="mb-3">Done</h5>
               <div th:if="${doneTasks.isEmpty()}">There are no tasks in done</div>
               <th:block th:each="doneTask:${doneTasks}">
-                <div class="card" style="width: 100%">
+                <div class="card mb-3" style="width: 100%">
                   <div class="card-body">
                     <h5 class="card-title">[[${doneTask.title}]]</h5>
                     <h6 class="card-subtitle mb-2 text-muted"
@@ -127,9 +138,11 @@
                       'None'}]]</p>
                   </div>
                   <div class="card-footer py-3 d-flex flex-wrap gap-2">
-                    <a th:href="@{/projects/{id}/tasks/{taskId}/edit(id=${projectId}, taskId=${doneTask.taskId})}"
+                    <a th:if="${isProjectOwner || user.userId == doneTask.creator.userId}"
+                       th:href="@{/projects/{id}/tasks/{taskId}/edit(id=${projectId}, taskId=${doneTask.taskId})}"
                        class="btn btn-secondary">Edit</a>
                     <form
+                        th:if="${isProjectOwner || user.userId == doneTask.creator.userId}"
                         th:action="@{/projects/{id}/tasks/{taskId}/delete(id=${projectId}, taskId=${doneTask.taskId})}"
                         th:object="${doneTask}"
                         method="post">
@@ -142,7 +155,9 @@
                           th:action="@{/projects/{id}/tasks/{taskId}/update-status(id=${projectId}, taskId=${doneTask.taskId})}"
                           method="post">
                         <input type="hidden" name="status" value="progress"/>
-                        <button title="set in progress" class="btn btn-light border">
+                        <button
+                            th:disabled="${!isProjectOwner && (user.userId != doneTask.assignee?.userId) && (user.userId != doneTask.creator?.userId)}"
+                            title="set in progress" class="btn btn-light border">
                           &#8701;
                         </button>
                       </form>

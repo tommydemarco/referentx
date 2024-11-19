@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,7 @@ public class TaskController {
             model.addAttribute("doneTasks", doneTasks);
         }
 
+        model.addAttribute("isProjectOwner", currentUser.getUserId() == project.getOwner().getUserId());
         model.addAttribute("projectId", id);
         model.addAttribute("section", "tasks");
         model.addAttribute("projectName", project.getName());
@@ -92,23 +94,25 @@ public class TaskController {
     }
 
     @PostMapping("/projects/{id}/tasks/add-new")
-    public String addTaskPost(@PathVariable("id") int id, @RequestParam("selectedAssigneeId") int assigneeId, Task task, Model model) {
+    public String addTaskPost(@PathVariable("id") int id, @RequestParam("selectedAssigneeId") int assigneeId, Task task, RedirectAttributes redirectAttributes) {
         Project project = projectService.getOne(id);
+        Users currentUser = usersService.getCurrentUser();
 
         task.setProject(project);
         task.setStatus(TODO);
+        task.setCreator(currentUser);
 
         if (assigneeId == 0) {
             task.setAssignee(null);
         } else {
             Users assignee = usersService.getOne(assigneeId);
-            System.out.println("ASSIGNEEEE: " + assignee);
             task.setAssignee(assignee);
         }
 
-        model.addAttribute("task", task);
+        taskService.addNew(task);
+        redirectAttributes.addFlashAttribute("message", "Task added successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
 
-        Task saved = taskService.addNew(task);
         return "redirect:/projects/" + id + "/tasks";
     }
 
@@ -133,8 +137,7 @@ public class TaskController {
     }
 
     @PostMapping("/projects/{id}/tasks/edit-task")
-    public String editTaskPost(@PathVariable("id") int id, @RequestParam("selectedAssigneeId") int assigneeId, Task task) {
-
+    public String editTaskPost(@PathVariable("id") int id, @RequestParam("selectedAssigneeId") int assigneeId, Task task, RedirectAttributes redirectAttributes) {
         Project project = projectService.getOne(id);
         task.setProject(project);
 
@@ -142,24 +145,25 @@ public class TaskController {
             task.setAssignee(null);
         } else {
             Users assignee = usersService.getOne(assigneeId);
-            System.out.println("ASSIGNEEEE: " + assignee);
             task.setAssignee(assignee);
         }
 
-        taskService.updateTask(task);
-
+        taskService.edit(task);
+        redirectAttributes.addFlashAttribute("message", "Task edited successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
         return "redirect:/projects/" + id + "/tasks";
     }
 
     @DeleteMapping("/projects/{id}/tasks/{taskId}/delete")
-    public String deleteTask(@PathVariable("id") int id, Task task, Model model) {
-
-        taskService.deleteTask(task);
+    public String deleteTask(@PathVariable("id") int id, Task task, RedirectAttributes redirectAttributes) {
+        taskService.delete(task);
+        redirectAttributes.addFlashAttribute("message", "Task deleted successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
         return "redirect:/projects/" + id + "/tasks";
     }
 
     @PostMapping("/projects/{id}/tasks/{taskId}/update-status")
-    public String updateStatus(@PathVariable Integer id, @PathVariable Integer taskId, @RequestParam("status") String statusValue) {
+    public String updateStatus(@PathVariable Integer id, @PathVariable Integer taskId, @RequestParam("status") String statusValue, RedirectAttributes redirectAttributes) {
         TaskStatus status;
 
         switch (statusValue.toLowerCase()) {
@@ -177,6 +181,8 @@ public class TaskController {
         }
 
         taskService.updateStatus(taskId, status);
+        redirectAttributes.addFlashAttribute("message", "Status updated successfully");
+        redirectAttributes.addFlashAttribute("messageType", "success");
 
         return "redirect:/projects/" + id + "/tasks";
     }

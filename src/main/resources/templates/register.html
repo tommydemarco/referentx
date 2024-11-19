@@ -10,64 +10,75 @@
 </head>
 
 <body>
-<section class="content hidden-overflow">
-  <div class="row">
-    <div class="col-6">
-      <div>
-        <div class="d-flex justify-content-center mb-4">
-          <h1 class="font-weight-bold">
-            Register
-          </h1>
-        </div>
-        <div class="myForm">
-          <form
-              th:action="@{/register/new}"
-              th:object="${user}"
-              method="post"
-          >
-            <div class="form-group">
-              <input
-                  placeholder="Name"
-                  name="name"
-                  th:field="*{name}"
-                  type="text"
-                  class="form-control"
-                  required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                  placeholder="Email"
-                  name="email"
-                  th:field="*{email}"
-                  type="email"
-                  class="form-control"
-                  required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                  min="8"
-                  placeholder="Password"
-                  name="password"
-                  th:field="*{password}"
-                  type="password"
-                  class="form-control pwd"
-                  required
-              />
-            </div>
-            <div class="form-group mt-5 col-md-12">
-              <button type="submit" class="btn btn-primary">Register</button>
-            </div>
-          </form>
-        </div>
+<div class="bg-dark mb-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="navbar navbar-expand-md navbar-dark ">
+          <a class="navbar-brand" th:href="@{/projects/}">ReferentX</a>
+        </nav>
       </div>
     </div>
   </div>
-</section>
-</body>
+</div>
 
-<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <form
+          th:action="@{/register/new}"
+          th:object="${user}"
+          method="post"
+      >
+        <h1 class="text-center bold font-weight-bold mb-4">Register</h1>
+        <div class="form-group">
+          <input
+              placeholder="Name"
+              name="name"
+              th:field="*{name}"
+              type="text"
+              class="form-control mb-3"
+              required
+          />
+        </div>
+        <div class="form-group">
+          <input
+              placeholder="Email"
+              name="email"
+              th:field="*{email}"
+              type="email"
+              class="form-control mb-3"
+              required
+          />
+        </div>
+        <div class="form-group">
+          <input
+              min="8"
+              placeholder="Password"
+              name="password"
+              th:field="*{password}"
+              type="password"
+              class="form-control mb-3"
+              required
+          />
+        </div>
+        <div class="form-group mb-3 d-flex justify-content-center">
+          <button type="submit" class="btn btn-primary w-100">Log in</button>
+        </div>
+        <p class="text-center">
+          Already have an account?
+          <a
+              href="#"
+              th:href="@{/login}"
+          >
+            Login</a
+          >
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-
+</body>
 </html>
