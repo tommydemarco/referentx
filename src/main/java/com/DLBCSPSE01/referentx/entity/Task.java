@@ -22,7 +22,7 @@ public class Task {
     @JoinColumn(name = "projectId", referencedColumnName = "projectId")
     private Project project;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date dueDate;
 
     @ManyToOne
