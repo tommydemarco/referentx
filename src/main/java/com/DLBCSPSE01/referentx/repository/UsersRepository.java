@@ -1,6 +1,6 @@
 package com.DLBCSPSE01.referentx.repository;
 
-import com.DLBCSPSE01.referentx.entity.Users;
+import com.DLBCSPSE01.referentx.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

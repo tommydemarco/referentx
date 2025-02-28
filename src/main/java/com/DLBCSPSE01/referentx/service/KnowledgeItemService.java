@@ -1,7 +1,6 @@
 package com.DLBCSPSE01.referentx.service;
 
-import com.DLBCSPSE01.referentx.entity.*;
-import com.DLBCSPSE01.referentx.repository.ChapterRepository;
+import com.DLBCSPSE01.referentx.model.*;
 import com.DLBCSPSE01.referentx.repository.KnowledgeItemRepository;
 import org.springframework.stereotype.Service;
 

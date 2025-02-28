@@ -1,9 +1,7 @@
-package com.DLBCSPSE01.referentx.entity;
+package com.DLBCSPSE01.referentx.model;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-
-import java.util.List;
 
 @Entity
 @DiscriminatorValue("JournalArticle")

@@ -1,10 +1,8 @@
 package com.DLBCSPSE01.referentx.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.DLBCSPSE01.referentx.entity.*;
+import com.DLBCSPSE01.referentx.model.*;
 import com.DLBCSPSE01.referentx.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,8 +15,6 @@ import java.util.stream.Collectors;
 
 @Controller
 public class KnowledgeItemController {
-    private static final Logger logger = LoggerFactory.getLogger(KnowledgeItemController.class);
-
     private final UsersService usersService;
     private final KnowledgeItemService knowledgeItemService;
     private final ProjectService projectService;
@@ -35,7 +31,7 @@ public class KnowledgeItemController {
     }
 
     @GetMapping("/projects/{id}/knowledge-items")
-    public String knowledgeItemsPage(@PathVariable("id") int id, Model model) throws JsonProcessingException {
+    public String listKnowledgeItems(@PathVariable("id") int id, Model model) throws JsonProcessingException {
 
         Users currentUser = usersService.getCurrentUser();
         Project project = projectService.getOne(id);
@@ -98,7 +94,7 @@ public class KnowledgeItemController {
         if (chapterId == 0) {
             knowledgeItem.setChapter(null);
         } else {
-            Chapter chapter = chapterService.getOne(sourceId);
+            Chapter chapter = chapterService.getOne(chapterId);
             knowledgeItem.setChapter(chapter);
         }
 

@@ -1,4 +1,4 @@
-package com.DLBCSPSE01.referentx.entity;
+package com.DLBCSPSE01.referentx.model;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -34,7 +34,7 @@ public class Book extends BaseSource {
     }
 
     public void setAuthors(String authors) {
-        this.authors = this.authors;
+        this.authors = authors;
     }
 
     public String getPublicationPlace() {

@@ -1,4 +1,4 @@
-package com.DLBCSPSE01.referentx.entity;
+package com.DLBCSPSE01.referentx.model;
 
 public enum CitationStyle {
     APA_7TH("apa_7th", "APA 7th Edition"),

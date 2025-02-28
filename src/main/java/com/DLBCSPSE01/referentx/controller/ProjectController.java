@@ -1,6 +1,6 @@
 package com.DLBCSPSE01.referentx.controller;
 
-import com.DLBCSPSE01.referentx.entity.*;
+import com.DLBCSPSE01.referentx.model.*;
 import com.DLBCSPSE01.referentx.service.ProjectService;
 import com.DLBCSPSE01.referentx.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +29,12 @@ public class ProjectController {
     }
 
     @GetMapping("/")
-    public String homePage() {
+    public String home() {
         return "redirect:/projects/";
     }
 
     @GetMapping("/projects/")
-    public String projectsPage(@RequestParam(value = "type", required = false) String type, Model model) {
+    public String listProjects(@RequestParam(value = "type", required = false) String type, Model model) {
 
         Users currentUser = usersService.getCurrentUser();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -76,8 +76,10 @@ public class ProjectController {
     }
 
     @PostMapping("/projects/add-new")
-    public String addProjectPost(@RequestParam("collaboratorId") List<Integer> collaboratorIds, Project project, RedirectAttributes redirectAttributes) {
-        List<Users> selectedCollaborators = usersService.getAllById(collaboratorIds);
+    public String addProjectPost(@RequestParam(value = "collaboratorId", required = false) List<Integer> collaboratorIds, Project project, RedirectAttributes redirectAttributes) {
+        List<Users> selectedCollaborators = (collaboratorIds != null)
+                ? usersService.getAllById(collaboratorIds)
+                : new ArrayList<>();
         project.setCollaborators(selectedCollaborators);
 
         Users user = usersService.getCurrentUser();
@@ -114,8 +116,10 @@ public class ProjectController {
     }
 
     @PostMapping("/projects/edit-project")
-    public String editProjectPost(@RequestParam("collaboratorId") List<Integer> collaboratorIds, Project project, RedirectAttributes redirectAttributes) {
-        List<Users> selectedCollaborators = usersService.getAllById(collaboratorIds);
+    public String editProjectPost(@RequestParam(value = "collaboratorId", required = false) List<Integer> collaboratorIds, Project project, RedirectAttributes redirectAttributes) {
+        List<Users> selectedCollaborators = (collaboratorIds != null)
+                ? usersService.getAllById(collaboratorIds)
+                : new ArrayList<>();
         project.setCollaborators(selectedCollaborators);
 
         Users user = usersService.getCurrentUser();
