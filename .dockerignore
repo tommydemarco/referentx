@@ -1,7 +1,0 @@
-target/
-*.log
-*.iml
-.mvn/
-.idea/
-.DS_Store
-node_modules/
