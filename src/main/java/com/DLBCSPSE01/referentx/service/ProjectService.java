@@ -1,6 +1,6 @@
 package com.DLBCSPSE01.referentx.service;
 
-import com.DLBCSPSE01.referentx.entity.*;
+import com.DLBCSPSE01.referentx.model.*;
 import com.DLBCSPSE01.referentx.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 

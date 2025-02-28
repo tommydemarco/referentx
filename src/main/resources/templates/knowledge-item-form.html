@@ -37,10 +37,6 @@
           <textarea id="content" class="form-control" th:field="*{content}"></textarea>
         </div>
         <div class="form-group mb-3">
-          <label for="pageRange">Page range</label>
-          <input type="text" id="pageRange" class="form-control" th:field="*{pageRange}">
-        </div>
-        <div class="form-group mb-3">
           <label for="selectedSourceId">Associated source</label>
           <select id="selectedSourceId" class="form-select" name="selectedSourceId">
             <option value="0" th:selected="${knowledgeItem.source == null}">None</option>
@@ -58,7 +54,7 @@
             <option value="0" th:selected="${knowledgeItem.chapter == null}">None</option>
             <option th:each="chapter : ${projectChapters}"
                     th:value="${chapter.chapterId}"
-                    th:text="${chapter.chapterName}"
+                    th:text="${chapter.name}"
                     th:selected="${chapter == knowledgeItem.chapter}"
             >
             </option>

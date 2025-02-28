@@ -1,6 +1,6 @@
 package com.DLBCSPSE01.referentx.controller;
 
-import com.DLBCSPSE01.referentx.entity.Users;
+import com.DLBCSPSE01.referentx.model.Users;
 import com.DLBCSPSE01.referentx.service.UsersService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

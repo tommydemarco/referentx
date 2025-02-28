@@ -1,7 +1,7 @@
 package com.DLBCSPSE01.referentx.repository;
 
-import com.DLBCSPSE01.referentx.entity.Project;
-import com.DLBCSPSE01.referentx.entity.Task;
+import com.DLBCSPSE01.referentx.model.Project;
+import com.DLBCSPSE01.referentx.model.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

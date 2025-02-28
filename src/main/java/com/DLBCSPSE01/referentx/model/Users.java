@@ -1,4 +1,4 @@
-package com.DLBCSPSE01.referentx.entity;
+package com.DLBCSPSE01.referentx.model;
 
 
 import jakarta.persistence.*;

@@ -1,6 +1,6 @@
 package com.DLBCSPSE01.referentx.controller;
 
-import com.DLBCSPSE01.referentx.entity.*;
+import com.DLBCSPSE01.referentx.model.*;
 import com.DLBCSPSE01.referentx.service.ProjectService;
 import com.DLBCSPSE01.referentx.service.TaskService;
 import com.DLBCSPSE01.referentx.service.UsersService;
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.DLBCSPSE01.referentx.entity.TaskStatus.*;
+import static com.DLBCSPSE01.referentx.model.TaskStatus.*;
 
 @Controller
 public class TaskController {
@@ -33,7 +33,7 @@ public class TaskController {
     }
 
     @GetMapping("/projects/{id}/tasks")
-    public String tasksPage(@PathVariable("id") int id, Model model) {
+    public String listTasks(@PathVariable("id") int id, Model model) {
 
         Users currentUser = usersService.getCurrentUser();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

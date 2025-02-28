@@ -1,6 +1,6 @@
 package com.DLBCSPSE01.referentx.controller;
 
-import com.DLBCSPSE01.referentx.entity.*;
+import com.DLBCSPSE01.referentx.model.*;
 import com.DLBCSPSE01.referentx.service.ChapterService;
 import com.DLBCSPSE01.referentx.service.ProjectService;
 import com.DLBCSPSE01.referentx.service.UsersService;
@@ -33,7 +33,7 @@ public class ChapterController {
     }
 
     @GetMapping("/projects/{id}/chapters")
-    public String chaptersPage(@PathVariable("id") int id, Model model) {
+    public String listChapters(@PathVariable("id") int id, Model model) {
 
         Users currentUser = usersService.getCurrentUser();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

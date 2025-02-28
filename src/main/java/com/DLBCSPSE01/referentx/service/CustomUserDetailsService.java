@@ -1,6 +1,6 @@
 package com.DLBCSPSE01.referentx.service;
 
-import com.DLBCSPSE01.referentx.entity.Users;
+import com.DLBCSPSE01.referentx.model.Users;
 import com.DLBCSPSE01.referentx.repository.UsersRepository;
 import com.DLBCSPSE01.referentx.config.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.DLBCSPSE01.referentx.config;
 
-import com.DLBCSPSE01.referentx.entity.Users;
+import com.DLBCSPSE01.referentx.model.Users;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
 
-    private Users user;
+    public Users user;
 
     public CustomUserDetails(Users user) {
         this.user = user;

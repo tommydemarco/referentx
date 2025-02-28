@@ -1,6 +1,6 @@
 package com.DLBCSPSE01.referentx.controller;
 
-import com.DLBCSPSE01.referentx.entity.*;
+import com.DLBCSPSE01.referentx.model.*;
 import com.DLBCSPSE01.referentx.service.ProjectService;
 import com.DLBCSPSE01.referentx.service.SourceService;
 import com.DLBCSPSE01.referentx.service.UsersService;
@@ -30,7 +30,7 @@ public class SourceController {
     }
 
     @GetMapping("/projects/{id}/sources")
-    public String sourcesPage(@PathVariable("id") int id, Model model) {
+    public String listSources(@PathVariable("id") int id, Model model) {
 
         Users currentUser = usersService.getCurrentUser();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
