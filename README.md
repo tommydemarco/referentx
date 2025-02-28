@@ -18,11 +18,7 @@ Before running the application, ensure you have the following installed:
 
 ### 2. Configure the Database
 
-Create a MySQL database named `referentx` and update the `application.properties` if necessary:
-
-```sql
-CREATE DATABASE referentx;
-```
+Create a MySQL database named `referentx` and update the `application.properties` file if necessary.
 
 Ensure MySQL is running and that the credentials in `src/main/resources/application.properties` match your MySQL setup.
 
